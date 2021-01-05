@@ -18,17 +18,12 @@ RUN balena --version
 
 # https://github.com/balena-io/balena-cli/blob/master/INSTALL-LINUX.md#additional-dependencies
 # hadolint ignore=DL3018
-RUN apk add --no-cache avahi bash ca-certificates docker openssh
+RUN apk add --no-cache avahi bash openssh
 
-# overlay2 requires a docker volume for graph
-VOLUME /var/lib/docker
+COPY init.sh ./
 
-COPY *.sh ./
+RUN chmod +x ./init.sh
 
-RUN chmod +x ./*.sh
-
-ENV PATH "${PATH}:/usr/src/app"
-
-ENTRYPOINT [ "balena" ]
+ENTRYPOINT [ "./init.sh" ]
 
 CMD [ "--help" ]
