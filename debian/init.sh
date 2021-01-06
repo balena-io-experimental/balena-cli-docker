@@ -17,9 +17,14 @@ then
     echo "${SSH_PRIVATE_KEY}" | tr -d '\r' | ssh-add -
 fi
 
+if [ "${1}" = "balena" ]
+then
+    exec "$@"
+fi
+
 # attempt to determine if an executable
 # was provided in the command or just args
-if [ -x "${1}" ] || [ -x "$(which "${1}")" ]
+if [ "${1}" = "balena" ] || [ -x "${1}" ] || "${1}" -v >/dev/null 2>&1
 then
     exec "$@"
 else
