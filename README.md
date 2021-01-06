@@ -4,7 +4,7 @@ Multiarch docker images with balena-cli and a small footprint.
 
 ## Tags
 
-- `<cli-version>-buster`, `buster`, `<cli-version>`, `latest`
+- `<cli-version>-debian`, `debian`, `<cli-version>`, `latest`
 - `<cli-version>-alpine`, `alpine`
 
 ## Usage

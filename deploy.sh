@@ -17,11 +17,11 @@ docker buildx build alpine \
     --pull --push
 
 # missing linux/arm/v6 for now
-docker buildx build buster \
+docker buildx build debian \
     --build-arg BALENA_CLI_VERSION \
     --platform linux/amd64,linux/arm64,linux/arm/v7 \
-    --tag "${DOCKER_REPO}:${BALENA_CLI_VERSION}-buster" \
-    --tag "${DOCKER_REPO}:buster" \
+    --tag "${DOCKER_REPO}:${BALENA_CLI_VERSION}-debian" \
+    --tag "${DOCKER_REPO}:debian" \
     --tag "${DOCKER_REPO}:${BALENA_CLI_VERSION}" \
     --tag "${DOCKER_REPO}:latest" \
     --pull --push
