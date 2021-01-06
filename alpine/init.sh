@@ -1,5 +1,12 @@
 #!/bin/sh
 
+# start dockerd in the background
+if ! docker info >/dev/null 2>&1
+then
+    [ -e /var/run/docker.sock ] && rm /var/run/docker.sock
+    dockerd &
+fi
+
 if [ ! -e "${SSH_AUTH_SOCK}" ]
 then
     eval "$(ssh-agent -s)"

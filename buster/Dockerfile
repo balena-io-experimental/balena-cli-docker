@@ -19,7 +19,7 @@ RUN balena --version
 # https://github.com/balena-io/balena-cli/blob/master/INSTALL-LINUX.md#additional-dependencies
 # hadolint ignore=DL3008
 RUN apt-get update && apt-get install --no-install-recommends -y \
-    avahi-daemon openssh-client && \
+    avahi-daemon ca-certificates docker.io openssh-client && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY init.sh ./
