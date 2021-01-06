@@ -2,13 +2,17 @@
 
 Multiarch docker images with balena-cli and a small footprint.
 
-## Building
+## Tags
 
-Set `DOCKER_REPO` and `BALENA_CLI_VERSION` in `deploy.sh` and run.
+- `<cli-version>-buster`, `buster`, `<cli-version>`, `latest`
+- `<cli-version>-docker`, `docker`
+- `<cli-version>-alpine`, `alpine`
 
-```bash
-./deploy.sh
-```
+## Variants
+
+- `buster` includes openssh and avahi and supports amd64, arm64, and armv7
+- `docker` includes openssh, avahi, and docker and supports amd64, arm64, and armv7
+- `alpine` includes openssh and avahi and supports amd64, armv7, and armv6
 
 ## Usage
 
