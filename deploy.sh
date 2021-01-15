@@ -3,7 +3,7 @@
 set -e
 
 export DOCKER_REPO="klutchell/balena-cli"
-export BALENA_CLI_VERSION="12.37.0"
+export BALENA_CLI_VERSION="12.38.0"
 export DOCKER_CLI_EXPERIMENTAL=enabled
 
 docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
