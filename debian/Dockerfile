@@ -1,4 +1,6 @@
-FROM node:12-buster-slim
+ARG BALENA_ARCH
+
+FROM balenalib/${BALENA_ARCH}-debian-node:12-run
 
 WORKDIR /usr/src/app
 
@@ -14,6 +16,7 @@ RUN buildDeps="build-essential ca-certificates curl git python3" && \
     apt-get purge -y --auto-remove $buildDeps && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# fail early if balena binary won't run
 RUN balena --version
 
 # https://github.com/balena-io/balena-cli/blob/master/INSTALL-LINUX.md#additional-dependencies

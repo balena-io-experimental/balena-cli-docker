@@ -1,4 +1,6 @@
-FROM node:12-alpine
+ARG BALENA_ARCH
+
+FROM balenalib/${BALENA_ARCH}-alpine-node:12-run
 
 WORKDIR /usr/src/app
 
@@ -14,6 +16,7 @@ RUN apk add --no-cache -t .build-deps \
     npm install balena-cli@${BALENA_CLI_VERSION} -g --production --unsafe-perm && \
     apk del --purge .build-deps
 
+# fail early if balena binary won't run
 RUN balena --version
 
 # https://github.com/balena-io/balena-cli/blob/master/INSTALL-LINUX.md#additional-dependencies
