@@ -1,6 +1,6 @@
-# Example Docker Images for balena CLI
+# Unofficial Docker Images for balena CLI
 
-Example Docker images with balena CLI and docker-in-docker.
+Unofficial Docker images with balena CLI and docker-in-docker.
 
 ## Environment Variables
 
