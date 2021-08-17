@@ -6,11 +6,12 @@ WORKDIR /usr/src/app
 # hadolint ignore=DL3018
 RUN apk add --no-cache build-base ca-certificates curl git python3 wget linux-headers
 
-# balena-cli version can be set at build time
-ARG BALENA_CLI_VERSION=12.46.1
+ENV NODE_ENV production
+
+COPY package.json .
 
 # install balena-cli via npm
-RUN npm install balena-cli@${BALENA_CLI_VERSION} --production
+RUN npm install
 
 FROM node:12.22.3-alpine3.14 AS balena-cli
 
