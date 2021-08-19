@@ -1,4 +1,4 @@
-FROM node:12.22.3-alpine3.14 AS build
+FROM node:12.22.5-alpine3.14 AS build
 
 WORKDIR /usr/src/app
 
@@ -13,7 +13,7 @@ COPY package.json .
 # install balena-cli via npm
 RUN npm install
 
-FROM node:12.22.3-alpine3.14 AS balena-cli
+FROM node:12.22.5-alpine3.14 AS balena-cli
 
 WORKDIR /usr/src/app
 
