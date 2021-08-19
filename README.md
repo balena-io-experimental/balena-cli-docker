@@ -9,6 +9,7 @@ In most cases these are optional, but some examples will highlight when environm
 
 - `-e "SSH_PRIVATE_KEY=$(</path/to/priv/key)"`: copy your private SSH key file contents as an environment variable
 - `-e "DOCKERD=1"`: enable the included Docker-in-Docker daemon (requires `--privileged`)
+- `-e "DOCKERD_EXTRA_ARGS=--key=val"`: provide additional args for the Docker-in-Docker daemon
 
 ## Volumes
 
