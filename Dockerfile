@@ -44,14 +44,7 @@ ENTRYPOINT [ "/usr/src/app/entrypoint.sh" ]
 CMD [ "help" ]
 
 ENV SSH_AUTH_SOCK /ssh-agent
-ENV DOCKER_HOST unix:///var/run/docker.sock
-ENV DOCKER_PIDFILE /var/run/docker.pid
-ENV DOCKER_LOG_DRIVER json-file
-ENV DOCKER_DATA_ROOT /var/lib/docker
-ENV DOCKER_EXEC_ROOT /var/run/docker
-ENV DOCKER_LOGFILE /var/run/docker.log
-ENV DOCKER_DNS1 8.8.8.8
-ENV DOCKER_DNS2 8.8.4.4
+ENV DOCKERD_EXTRA_ARGS ""
 
 # docker data root must be a volume or tmpfs
 VOLUME /var/lib/docker

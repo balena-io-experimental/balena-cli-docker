@@ -14,18 +14,15 @@ trap "teardown" TERM INT QUIT EXIT
 # start dockerd if env var is set
 if [ "${DOCKERD:-}" = "1" ]
 then
-    rm -rv "${DOCKER_EXEC_ROOT}" "${DOCKER_PIDFILE}" "${DOCKER_HOST/unix:\/\//}" || true
-    dockerd \
-        --host="${DOCKER_HOST}" \
-        --pidfile="${DOCKER_PIDFILE}" \
-        --log-driver="${DOCKER_LOG_DRIVER}" \
-        --data-root="${DOCKER_DATA_ROOT}" \
-        --exec-root="${DOCKER_EXEC_ROOT}" \
-        --dns="${DOCKER_DNS1}" \
-        --dns="${DOCKER_DNS2}" \
-        2>&1 | tee "${DOCKER_LOGFILE}" &
+    # remove default pid, log, host, and exec root
+    rm -rv /var/run/docker* || true
 
-    while ! grep -q 'API listen on' "${DOCKER_LOGFILE}"
+    readarray -t dockerd_args <<< "${DOCKERD_EXTRA_ARGS}"
+
+    echo "Docker daemon args: ${dockerd_args[*]}"
+    dockerd "${dockerd_args[@]}" 2>&1 | tee /var/run/docker.log &
+
+    while ! grep -q 'API listen on' /var/run/docker.log
     do
         pgrep dockerd >/dev/null || exit 1
         sleep 2
