@@ -2,30 +2,23 @@
 
 set -eu
 
-teardown() {
-    sig=$?
-    echo "$0: caught signal ${sig}!"
-    pkill dockerd
-    exit ${sig}
-}
-
-trap "teardown" TERM INT QUIT EXIT
-
 # start dockerd if env var is set
 if [ "${DOCKERD:-}" = "1" ]
 then
     # remove default pid, log, host, and exec root
-    rm -rv /var/run/docker* || true
+    rm -rv /var/run/docker* 2>/dev/null || true
 
     readarray -t dockerd_args <<< "${DOCKERD_EXTRA_ARGS}"
 
-    echo "Docker daemon args: ${dockerd_args[*]}"
-    dockerd "${dockerd_args[@]}" 2>&1 | tee /var/run/docker.log &
+    echo "Starting Docker daemon with args: ${dockerd_args[*]}"
 
-    while ! grep -q 'API listen on' /var/run/docker.log
+    # shellcheck disable=SC2068,SC2086
+    dockerd ${dockerd_args[@]} &
+
+    until docker info >/dev/null 2>&1
     do
-        pgrep dockerd >/dev/null || exit 1
-        sleep 2
+      sleep 1
+      pgrep dockerd >/dev/null || exit 1
     done
 fi
 
