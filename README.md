@@ -1,4 +1,4 @@
-# Unofficial Docker Images for balena CLI
+# balena-cli-docker
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/klutchell/balena-cli.svg?style=flat-square)](https://hub.docker.com/r/klutchell/balena-cli/)
 [![Docker Stars](https://img.shields.io/docker/stars/klutchell/balena-cli.svg?style=flat-square)](https://hub.docker.com/r/klutchell/balena-cli/)
