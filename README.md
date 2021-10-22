@@ -1,6 +1,9 @@
 # Unofficial Docker Images for balena CLI
 
-Unofficial Docker images with balena CLI and docker-in-docker.
+[![Docker Pulls](https://img.shields.io/docker/pulls/klutchell/balena-cli.svg?style=flat-square)](https://hub.docker.com/r/klutchell/balena-cli/)
+[![Docker Stars](https://img.shields.io/docker/stars/klutchell/balena-cli.svg?style=flat-square)](https://hub.docker.com/r/klutchell/balena-cli/)
+
+Unofficial Docker images with the balena CLI and Docker-in-Docker.
 
 ## Environment Variables
 
