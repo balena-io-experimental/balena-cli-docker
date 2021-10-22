@@ -27,7 +27,7 @@ ENV PATH $PATH:/usr/src/app/node_modules/.bin/
 
 # https://github.com/balena-io/balena-cli/blob/master/INSTALL-LINUX.md#additional-dependencies
 # hadolint ignore=DL3018
-RUN apk add --no-cache avahi bash ca-certificates docker jq openssh
+RUN apk add --no-cache avahi bash ca-certificates docker jq openssh kmod
 
 # fail if binaries are missing or won't run
 RUN balena --version && dockerd --version && docker --version
