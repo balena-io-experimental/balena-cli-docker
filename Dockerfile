@@ -1,6 +1,6 @@
 # avoid alpine 3.13 or later due to this issue on armv7
 # https://wiki.alpinelinux.org/wiki/Release_Notes_for_Alpine_3.13.0#time64_requirements
-FROM node:12.22.7-alpine3.12 AS build
+FROM node:12.22.8-alpine3.12 AS build
 
 WORKDIR /usr/src/app
 
@@ -15,7 +15,7 @@ COPY package.json package-lock.json ./
 # install balena-cli via npm
 RUN npm install
 
-FROM node:12.22.7-alpine3.12 AS balena-cli
+FROM node:12.22.8-alpine3.12 AS balena-cli
 
 WORKDIR /usr/src/app
 
