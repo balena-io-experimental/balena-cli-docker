@@ -1,9 +1,25 @@
 # balena-cli-docker
 
-[![Docker Pulls](https://img.shields.io/docker/pulls/klutchell/balena-cli.svg?style=flat-square)](https://hub.docker.com/r/klutchell/balena-cli/)
-[![Docker Stars](https://img.shields.io/docker/stars/klutchell/balena-cli.svg?style=flat-square)](https://hub.docker.com/r/klutchell/balena-cli/)
+Example Docker image with the balena CLI and Docker-in-Docker.
 
-Unofficial Docker images with the balena CLI and Docker-in-Docker.
+## Build
+
+This example is not published on any repo so you'll need to build it yourself.
+
+```bash
+# enable docker buildkit and experimental mode
+export DOCKER_BUILDKIT=1
+export DOCKER_CLI_EXPERIMENTAL=enabled
+
+# build local image for native platform
+docker build . --tag balena-cli
+
+# enable QEMU for arm emulation
+docker run --rm --privileged multiarch/qemu-user-static:5.2.0-2 --reset -p yes
+
+# cross-build for another platform
+docker buildx build . --tag balena-cli --platform linux/arm/v7
+```
 
 ## Environment Variables
 
@@ -60,7 +76,7 @@ command again every time you run the image.
 
 ```bash
 $ docker volume create balena_data
-$ docker run --rm -it -v "balena_data:/root/.balena" klutchell/balena-cli /bin/bash
+$ docker run --rm -it -v "balena_data:/root/.balena" balena-cli /bin/bash
     
 > balena login --credentials --email "johndoe@gmail.com" --password "secret"
 > balena login --token "..."
@@ -79,7 +95,7 @@ This bind mount is required so the CLI has access to your app sources.
 ```bash
 $ docker run --rm -it -v "balena_data:/root/.balena" \
     -v "$PWD:$PWD" -w "$PWD" \
-    klutchell/balena-cli /bin/bash
+    balena-cli /bin/bash
 
 > balena push myApp --source .
 > balena push 10.0.0.1 --env MY_ENV_VAR=value --env my-service:SERVICE_VAR=value
@@ -92,7 +108,7 @@ $ docker run --rm -it -v "balena_data:/root/.balena" \
 
 ```bash
 $ docker run --rm -it -v "balena_data:/root/.balena" \
-    klutchell/balena-cli /bin/bash
+    balena-cli /bin/bash
 
 > balena logs 23c73a1 --service my-service
 > balena logs 23c73a1.local --system --tail
@@ -112,7 +128,7 @@ One way to make this key available to the container is to pass the private key f
 ```bash
 $ docker run --rm -it -v "balena_data:/root/.balena" \
     -e "SSH_PRIVATE_KEY=$(</path/to/priv/key)" \
-    klutchell/balena-cli /bin/bash
+    balena-cli /bin/bash
 
 > balena ssh f49cefd
 > balena ssh f49cefd my-service
@@ -128,7 +144,7 @@ $ ssh-add /path/to/priv/key
 
 $ docker run --rm -it -v "balena_data:/root/.balena" \
     -v "${SSH_AUTH_SOCK}:/ssh-agent" \
-    klutchell/balena-cli /bin/bash
+    balena-cli /bin/bash
 
 > balena ssh f49cefd
 > balena ssh f49cefd my-service
@@ -143,7 +159,7 @@ $ docker run --rm -it -v "balena_data:/root/.balena" \
 
 ```bash
 $ docker run --rm -it -v "balena_data:/root/.balena" \
-    klutchell/balena-cli /bin/bash
+    balena-cli /bin/bash
 
 > balena apps
 > balena app myorg/myapp
@@ -157,7 +173,7 @@ $ docker run --rm -it -v "balena_data:/root/.balena" \
 
 ```bash
 $ docker run --rm -it -v "balena_data:/root/.balena" \
-    klutchell/balena-cli /bin/bash
+    balena-cli /bin/bash
 
 > balena devices --application MyApp
 > balena device 7cf02a6
@@ -185,7 +201,7 @@ connections within the container.
 $ docker run --rm -it -v "balena_data:/root/.balena" \
     -p 22222:22222 \
     -p 12345:54321
-    klutchell/balena-cli /bin/bash
+    balena-cli /bin/bash
 
 > balena tunnel 2ead211 -p 22222:0.0.0.0
 > balena tunnel myApp -p 54321:0.0.0.0:12345
@@ -198,7 +214,7 @@ in your run command, and the interface `0.0.0.0` is optional in your tunnel comm
 ```bash
 $ docker run --rm -it -v "balena_data:/root/.balena" \
     --network host \
-    klutchell/balena-cli /bin/bash
+    balena-cli /bin/bash
 
 > balena tunnel 2ead211 -p 22222
 > balena tunnel myApp -p 54321:12345
@@ -219,7 +235,7 @@ The easiest way to run this command is to use the included Docker-in-Docker daem
 $ docker run --rm -it -v "balena_data:/root/.balena" \
     -v "docker_data:/var/lib/docker" \
     -e "DOCKERD=1" --privileged \
-    klutchell/balena-cli /bin/bash
+    balena-cli /bin/bash
 
 > balena os download raspberrypi3 -o raspberry-pi.img
 > balena os configure raspberry-pi.img --app MyApp
@@ -240,7 +256,7 @@ file must be the same from both the perspective of the CLI in the container and 
 $ docker run --rm -it -v "balena_data:/root/.balena" \
     -v "/var/run/docker.sock:/var/run/docker.sock" \
     -v "$PWD:$PWD" -w "$PWD" \
-    klutchell/balena-cli /bin/bash
+    balena-cli /bin/bash
 
 > balena os download raspberrypi3 -o raspberry-pi.img
 > balena os configure raspberry-pi.img --app MyApp
@@ -267,7 +283,7 @@ $ docker run --rm -it -v "balena_data:/root/.balena" \
     -v "docker_data:/var/lib/docker" \
     -e DOCKERD=1 --privileged \
     -v "$PWD:$PWD" -w "$PWD" \
-    klutchell/balena-cli /bin/bash
+    balena-cli /bin/bash
 
 > balena build --application myApp
 > balena deploy myApp
@@ -286,7 +302,7 @@ This bind mount is required so the CLI has access to your app sources.
 $ docker run --rm -it -v "balena_data:/root/.balena" \
     -v "/var/run/docker.sock:/var/run/docker.sock" \
     -v "$PWD:$PWD" -w "$PWD" \
-    klutchell/balena-cli /bin/bash
+    balena-cli /bin/bash
 
 > balena build --application myApp
 > balena deploy myApp
@@ -300,7 +316,7 @@ $ docker run --rm -it -v "balena_data:/root/.balena" \
 
 ```bash
 $ docker run --rm -it -v "balena_data:/root/.balena" \
-    klutchell/balena-cli /bin/bash
+    balena-cli /bin/bash
 
 > balena join balena.local --application MyApp
 > balena leave balena.local
@@ -318,5 +334,5 @@ However the host networking driver only works on Linux hosts, and is not support
 on Docker Desktop for Mac, Docker Desktop for Windows, or Docker EE for Windows Server.
 
 ```bash
-docker run --rm -it --network host klutchell/balena-cli scan
+docker run --rm -it --network host balena-cli scan
 ```
